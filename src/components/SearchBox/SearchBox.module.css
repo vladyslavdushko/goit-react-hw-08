@@ -1,0 +1,7 @@
+.searchContainer{
+    display: flex;
+    flex-direction: column;
+    max-width: 310px;
+    margin: 10px 0;
+    gap: 5px;
+} 
