@@ -3,7 +3,7 @@
     border: 1.5px solid black;
     justify-content: space-between;
     padding: 5px;
-    max-width: 300px;
+    min-width: 250px;
     align-items: center;
     border-radius: 5px;
 }

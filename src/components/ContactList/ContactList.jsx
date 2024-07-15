@@ -1,13 +1,16 @@
 import Contact from '../Contact/Contact';
+import styles from '../ContactList/ContactList.module.css'
 
-const ContactList = ({ contacts, search }) => {
+const ContactList = ({ contacts, search, deleteContact }) => {
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <ul>
-      {contacts
-        .filter((contact) => contact.name.toLowerCase().includes(search))
-        .map((contact) => (
-          <Contact key={contact.id} contact={contact} />
-        ))}
+    <ul className={styles.contactContainer}>
+      {filteredContacts.map(contact => (
+        <Contact key={contact.id} contact={contact} deleteContact={deleteContact} />
+      ))}
     </ul>
   );
 };

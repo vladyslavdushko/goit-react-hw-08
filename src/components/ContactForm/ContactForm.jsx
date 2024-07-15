@@ -1,37 +1,53 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ContactForm.module.css';
+import {ErrorMessage, Field, Form, Formik } from 'formik';
+import { nanoid } from 'nanoid';
+import * as Yup from 'yup'
 
-const ContactForm = () => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+const ContactForm = ({ addContact }) => {
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Логіка додавання контакту
+  const userSchema = Yup.object({
+    name: Yup.string().required('Name is requiered').min(3, "Name must be at least 3 chars").max(50),
+    number: Yup.string()
+    .required('This field is required!')
+    .min(3, 'Enter at least 3 digits')
+    .max(50, 'Enter valid phone number')
+    .matches(/[1-4]/g, 'Must be only numers!')
+  })
+
+  const handleSubmit = (values, actions) => {
+    const newContact = {
+      id: nanoid(),
+      name: values.name,
+      number: values.number,
+    };
+
+    addContact(newContact);
+    actions.resetForm();
+  };
+
+  let initialValues = {
+    name: '',
+    number: ''
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.contactForm}>
-      <label>
-        Name
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Number
-        <input
-          type="tel"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">Add contact</button>
-    </form>
+    <Formik validationSchema={userSchema} initialValues={initialValues} onSubmit={handleSubmit}>
+      <Form className={styles.contactForm}>
+        <label className={styles.label}>
+          Name
+          <Field type="text" name="name" />
+          <ErrorMessage name='name' component='span' className={styles.errorMessage}/>
+        </label>
+        <label className={styles.label}>
+          Number
+          <Field type="tel" name="number" />
+          <ErrorMessage name='number' component='span' className={styles.errorMessage}/>
+
+        </label>
+        <button type="submit">Add contact</button>
+      </Form>
+    </Formik>
   );
 };
 

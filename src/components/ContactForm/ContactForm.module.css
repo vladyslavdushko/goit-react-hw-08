@@ -1,0 +1,19 @@
+.contactForm{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    max-width: 300px;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.label{
+    display: flex;
+    flex-direction: column;
+}
+
+.errorMessage{
+    color: red;
+    font-size: 11px;
+}
