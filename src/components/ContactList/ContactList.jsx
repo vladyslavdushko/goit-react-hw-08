@@ -1,17 +1,31 @@
-import {useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Contact from '../Contact/Contact';
-import styles from '../ContactList/ContactList.module.css';
-import {selectFilteredContacts } from '../../redux/contactsSlice';
+import styles from './ContactList.module.css';
+import { selectFilteredContacts } from '../../redux/contacts/slice';
+import { useEffect } from 'react';
+import { fetchContacts } from '../../redux/contacts/operations';
+import ContactForm from '../ContactForm/ContactForm';
+import SearchBox from '../SearchBox/SearchBox';
 
 const ContactList = () => {
-  const users = useSelector(selectFilteredContacts); 
+  const users = useSelector(selectFilteredContacts);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
-    <ul className={styles.contactContainer}>
-      {users.length > 0 && users.map(user => (
-        <Contact key={user.id} user={user} />
-      ))}
-    </ul>
+    <div>
+      <ContactForm />
+      <SearchBox />
+
+      <ul className={styles.contactContainer}>
+        {users.length > 0 &&
+          users.map((user) => <Contact key={user.id} user={user} />)}
+      </ul>
+    </div>
   );
 };
 

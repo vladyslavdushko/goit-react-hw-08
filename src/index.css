@@ -1,13 +1,36 @@
-:root{
-    font-family: sans-serif;
+:root {
+  font-family: sans-serif;
 }
 
-ul,ol{
-    list-style: none;
-    padding: 0;
-    margin: 0;
+* {
+  margin: 0;
 }
 
-h1,h2,h3,h4,h5,h6,p{
-    margin: 0;
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }

@@ -1,11 +1,10 @@
-import { BsPersonFill } from "react-icons/bs";
-import { FaPhoneAlt } from "react-icons/fa";
+import { BsPersonFill } from 'react-icons/bs';
+import { FaPhoneAlt } from 'react-icons/fa';
 import styles from './Contact.module.css';
-import { useDispatch } from "react-redux";
-import { deleteContact } from "../../redux/contactsOps";
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/contacts/operations';
 
-
-const Contact = ({user}) => {
+const Contact = ({ user }) => {
   const dispatch = useDispatch();
 
   return (
@@ -20,9 +19,9 @@ const Contact = ({user}) => {
           <p>{user.number}</p>
         </div>
       </div>
-      <button 
-        className={styles.deleteBtn} 
-        onClick={() => dispatch(deleteContact(user.id))} // Використовуємо id для видалення
+      <button
+        className={styles.deleteBtn}
+        onClick={() => dispatch(deleteContact(user.id))}
       >
         Delete
       </button>

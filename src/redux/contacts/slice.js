@@ -1,17 +1,17 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { addContact, deleteContact, fetchContacts } from './contactsOps';
-import { selectNameFilter } from './filtersSlice';
+import { addContact, deleteContact, fetchContacts } from './operations';
+import { selectNameFilter } from '../filter/slice';
 
 const initialState = {
   items: [],
   loading: false,
-  error: null
+  error: null,
 };
 
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, (state) => {
         state.error = null;
@@ -31,7 +31,9 @@ export const contactsSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
-        state.items = state.items.filter(item => item.id !== action.payload.id);
+        state.items = state.items.filter(
+          (item) => item.id !== action.payload.id,
+        );
         state.loading = false;
       })
       .addCase(deleteContact.rejected, (state) => {
@@ -50,20 +52,20 @@ export const contactsSlice = createSlice({
         state.error = true;
         state.loading = false;
       });
-  }
+  },
 });
 
-export const selectContacts = state => state.contacts.items;
-export const selectLoading = state => state.contacts.loading;
-export const selectError = state => state.contacts.error;
+export const selectContacts = (state) => state.contacts.items;
+export const selectLoading = (state) => state.contacts.loading;
+export const selectError = (state) => state.contacts.error;
 
 export const selectFilteredContacts = createSelector(
   [selectContacts, selectNameFilter],
   (contacts, filterText) => {
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filterText.toLowerCase())
+    return contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(filterText.toLowerCase()),
     );
-  }
+  },
 );
 
 export default contactsSlice.reducer;
