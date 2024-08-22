@@ -13,3 +13,7 @@
   flex-direction: column;
   gap: 7px;
 }
+
+.register_link {
+  color: rgb(130, 80, 255);
+}

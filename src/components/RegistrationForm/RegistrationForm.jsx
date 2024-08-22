@@ -1,6 +1,10 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import styles from './RegistrationForm.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../redux/auth/operations.js';
+import { Link, Navigate } from 'react-router-dom';
+import { selectIsLoggedIn } from '../../redux/auth/selectors.js';
 
 const RegistrationForm = () => {
   const validationSchema = Yup.object({
@@ -14,10 +18,11 @@ const RegistrationForm = () => {
     password: Yup.string()
       .min(6, 'Пароль має містити не менше 6 символів')
       .required('Це поле обов’язкове'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Паролі не співпадають')
-      .required('Це поле обов’язкове'),
   });
+
+  const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const initialValues = {
     name: '',
@@ -25,10 +30,19 @@ const RegistrationForm = () => {
     password: '',
   };
 
-  const onSubmit = (values) => {
-    console.log('Форма відправлена', values);
-    // Тут ви можете викликати API або інші дії після відправлення форми
+  const onSubmit = (values, actions) => {
+    const userData = {
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    };
+    dispatch(registerUser(userData));
+    actions.resetForm();
   };
+
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className={styles.form_container}>
@@ -38,47 +52,40 @@ const RegistrationForm = () => {
         onSubmit={onSubmit}
       >
         <Form className={styles.form}>
-          <div className={styles.field_container}>
-            <label htmlFor="name">Name</label>
-            <Field type="text" id="name" name="name" />
-            <ErrorMessage
-              name="name"
-              component="div"
-              style={{ color: 'red' }}
-            />
-          </div>
+          <label className={styles.field_container}>
+            Name
+            <Field type="text" name="name" />
+            <ErrorMessage name="name" component="p" style={{ color: 'red' }} />
+          </label>
 
-          <div className={styles.field_container}>
-            <label htmlFor="email">Email</label>
-            <Field type="email" id="email" name="email" />
-            <ErrorMessage
-              name="email"
-              component="div"
-              style={{ color: 'red' }}
-            />
-          </div>
+          <label className={styles.field_container}>
+            Email
+            <Field type="email" name="email" />
+            <ErrorMessage name="email" component="p" style={{ color: 'red' }} />
+          </label>
 
-          <div className={styles.field_container}>
-            <label htmlFor="password">Password</label>
-            <Field type="password" id="password" name="password" />
+          <label className={styles.field_container}>
+            Password
+            <Field type="password" name="password" />
             <ErrorMessage
               name="password"
-              component="div"
+              component="p"
               style={{ color: 'red' }}
             />
-          </div>
-
-          <div className={styles.field_container}>
-            <ErrorMessage
-              name="confirmPassword"
-              component="div"
-              style={{ color: 'red' }}
-            />
-          </div>
+          </label>
 
           <button type="submit">Register</button>
         </Form>
       </Formik>
+
+      <div className={styles.link_container}>
+        <p>
+          Already have an account?{' '}
+          <Link to="/login" className={styles.register_link}>
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

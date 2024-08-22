@@ -1,52 +1,64 @@
 import styles from './ContactForm.module.css';
-import {ErrorMessage, Field, Form, Formik } from 'formik';
-import * as Yup from 'yup'
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contacts/operations';
 
-const ContactForm = () => {  
-  const dispatch = useDispatch()
-   
+const ContactForm = () => {
+  const dispatch = useDispatch();
+
   const userSchema = Yup.object({
-    name: Yup.string().required('Name is requiered').min(3, "Name must be at least 3 chars").max(50),
+    name: Yup.string()
+      .required('Name is requiered')
+      .min(3, 'Name must be at least 3 chars')
+      .max(50),
     number: Yup.string()
-    .required('This field is required!')
-    .min(3, 'Enter at least 3 digits')
-    .max(50, 'Enter valid phone number')
-    .matches(/[1-4]/g, 'Must be only numers!')
-  })
+      .required('This field is required!')
+      .min(3, 'Enter at least 3 digits')
+      .max(50, 'Enter valid phone number')
+      .matches(/[1-4]/g, 'Must be only numers!'),
+  });
 
   const handleSubmit = (values, actions) => {
-
-    dispatch(addContact({
-      name: values.name,
-      number: values.number
-    }))
-    console.log(values.name);
+    console.log(values, 'contact values');
+    dispatch(
+      addContact({
+        name: values.name,
+        number: values.number,
+      }),
+    );
     actions.resetForm();
   };
 
   let initialValues = {
     name: '',
-    number: ''
+    number: '',
   };
 
   return (
-    <Formik validationSchema={userSchema} initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      validationSchema={userSchema}
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+    >
       <Form className={styles.contactForm}>
         <label className={styles.label}>
           Name
-          <Field 
-          type="text" 
-          name="name" 
+          <Field type="text" name="name" />
+          <ErrorMessage
+            name="name"
+            component="span"
+            className={styles.errorMessage}
           />
-          <ErrorMessage name='name' component='span' className={styles.errorMessage}/>
         </label>
         <label className={styles.label}>
           Number
           <Field type="tel" name="number" />
-          <ErrorMessage name='number' component='span' className={styles.errorMessage}/>
-
+          <ErrorMessage
+            name="number"
+            component="span"
+            className={styles.errorMessage}
+          />
         </label>
         <button type="submit">Add contact</button>
       </Form>

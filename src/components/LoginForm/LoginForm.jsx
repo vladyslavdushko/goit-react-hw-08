@@ -1,9 +1,14 @@
-import { ErrorMessage, Field, Formik } from 'formik';
+import { ErrorMessage, Field, Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import styles from './LoginForm.module.css';
-import { Form, Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../redux/auth/operations';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const validationSchema = Yup.object({
     email: Yup.string()
       .email('Невірний формат електронної пошти')
@@ -18,10 +23,14 @@ const LoginForm = () => {
     password: '',
   };
 
-  const onSubmit = (values) => {
-    console.log('Форма відправлена', values);
-    // Тут ви можете викликати API або інші дії після відправлення форми
+  const onSubmit = (values, actions) => {
+    dispatch(loginUser(values));
+    actions.resetForm();
   };
+
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className={styles.form_container}>
