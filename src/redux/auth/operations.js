@@ -38,3 +38,18 @@ export const logOutUser = createAsyncThunk(
     }
   },
 );
+
+export const getMe = createAsyncThunk('getMe', async (_, thunkAPI) => {
+  const savedToken = thunkAPI.getState().auth.token;
+
+  if (savedToken === null) {
+    return thunkAPI.rejectWithValue('token doesn`t exist');
+  }
+  try {
+    setToken(savedToken);
+    const { data } = await api.get('users/current');
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
