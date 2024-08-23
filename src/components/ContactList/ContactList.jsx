@@ -1,16 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Contact from '../Contact/Contact';
 import styles from './ContactList.module.css';
-import {
-  selectFilteredContacts,
-  selectLoading,
-} from '../../redux/contacts/slice';
 import { useEffect } from 'react';
 import { fetchContacts } from '../../redux/contacts/operations';
-import ContactForm from '../ContactForm/ContactForm';
 import SearchBox from '../SearchBox/SearchBox';
 import Loading from '../Loading/Loading';
 import { selectToken } from '../../redux/auth/selectors';
+import {
+  selectFilteredContacts,
+  selectLoading,
+} from '../../redux/contacts/selectors';
 
 const ContactList = () => {
   const users = useSelector(selectFilteredContacts);
@@ -24,7 +23,6 @@ const ContactList = () => {
 
   return (
     <div className="container">
-      <ContactForm />
       <SearchBox />
       {loading && <Loading />}
       <ul className={styles.contactContainer}>

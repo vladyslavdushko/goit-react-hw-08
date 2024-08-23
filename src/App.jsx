@@ -8,17 +8,19 @@ import { getMe } from './redux/auth/operations';
 import PrivateRoute from './routes/PrivateRoute';
 import RestrictedRoute from './routes/RestrictedRoute';
 
-const Home = lazy(() => import('./pages/Home/Home'));
-const ContactList = lazy(() => import('./components/ContactList/ContactList'));
-const Register = lazy(() => import('./pages/Registration/Register'));
-const Login = lazy(() => import('./pages/Login/Login'));
+const Home = lazy(() => import('./pages/Home/HomePage'));
+const ContactPage = lazy(() => import('./pages/ContactsPage/ContactsPage'));
+const Register = lazy(() => import('./pages/Registration/RegistrationPage'));
+const Login = lazy(() => import('./pages/Login/LoginPage'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch]);
+
   return (
     <div>
       <div>
@@ -31,7 +33,7 @@ function App() {
                 path="/contacts"
                 element={
                   <PrivateRoute>
-                    <ContactList />
+                    <ContactPage />
                   </PrivateRoute>
                 }
               />

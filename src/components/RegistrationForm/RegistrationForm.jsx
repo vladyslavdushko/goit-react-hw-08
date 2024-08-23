@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../redux/auth/operations.js';
 import { Link, Navigate } from 'react-router-dom';
 import { selectIsLoggedIn } from '../../redux/auth/selectors.js';
+import Button from '../Button/Button.jsx';
 
 const RegistrationForm = () => {
   const validationSchema = Yup.object({
@@ -74,7 +75,7 @@ const RegistrationForm = () => {
             />
           </label>
 
-          <button type="submit">Register</button>
+          <Button>Register</Button>
         </Form>
       </Formik>
 

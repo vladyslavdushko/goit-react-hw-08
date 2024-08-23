@@ -1,6 +1,6 @@
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
 import styles from './Register.module.css';
-const Register = () => {
+const RegistrationPage = () => {
   return (
     <>
       <h2 className={styles.registration_header}>Registration</h2>
@@ -9,4 +9,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegistrationPage;

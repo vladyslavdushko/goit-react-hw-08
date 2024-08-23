@@ -4,6 +4,7 @@ import styles from './LoginForm.module.css';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/auth/operations';
+import Button from '../Button/Button';
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
 
 const LoginForm = () => {
@@ -60,15 +61,13 @@ const LoginForm = () => {
             />
           </div>
 
-          <button type="submit" className={styles.submit_button}>
-            Log in
-          </button>
+          <Button>Log in</Button>
         </Form>
       </Formik>
 
       <div className={styles.link_container}>
         <p>
-          Don’t have an account?{' '}
+          Don’t have an account?
           <Link to="/registration" className={styles.register_link}>
             Register
           </Link>
