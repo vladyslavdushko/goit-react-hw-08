@@ -42,6 +42,7 @@ export const authSlice = createSlice({
         state.user.name = action.payload.name;
         state.user.email = action.payload.email;
         state.token = action.payload.token;
+        state.isRefreshing = false;
       })
       .addCase(getMe.rejected, (state) => {
         state.isRefreshing = false;
