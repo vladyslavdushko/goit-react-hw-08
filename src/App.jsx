@@ -21,7 +21,9 @@ function App() {
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch]);
+
   const refreshing = useSelector(selectIsRefreshing);
+
   return refreshing ? null : (
     <>
       <Suspense fallback={<Loading />}>
