@@ -35,11 +35,16 @@ export const authSlice = createSlice({
       .addCase(logOutUser.fulfilled, () => {
         return initialState;
       })
+      .addCase(getMe.pending, (state) => {
+        state.isRefreshing = true;
+      })
       .addCase(getMe.fulfilled, (state, action) => {
         state.user.name = action.payload.name;
         state.user.email = action.payload.email;
         state.token = action.payload.token;
-        state.isLoggedIn = true;
+      })
+      .addCase(getMe.rejected, (state) => {
+        state.isRefreshing = false;
       });
   },
 });

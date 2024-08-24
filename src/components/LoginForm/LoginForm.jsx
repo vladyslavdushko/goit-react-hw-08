@@ -1,15 +1,13 @@
 import { ErrorMessage, Field, Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import styles from './LoginForm.module.css';
-import { Link, Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/auth/operations';
 import Button from '../Button/Button';
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
   const validationSchema = Yup.object({
     email: Yup.string()
       .email('Невірний формат електронної пошти')
@@ -28,10 +26,6 @@ const LoginForm = () => {
     dispatch(loginUser(values));
     actions.resetForm();
   };
-
-  if (isLoggedIn) {
-    return <Navigate to="/" />;
-  }
 
   return (
     <div className={styles.form_container}>
@@ -60,7 +54,6 @@ const LoginForm = () => {
               className={styles.error_message}
             />
           </div>
-
           <Button>Log in</Button>
         </Form>
       </Formik>
@@ -68,7 +61,7 @@ const LoginForm = () => {
       <div className={styles.link_container}>
         <p>
           Don’t have an account?
-          <Link to="/registration" className={styles.register_link}>
+          <Link to="/register" className={styles.register_link}>
             Register
           </Link>
         </p>
